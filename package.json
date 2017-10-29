@@ -1,0 +1,24 @@
+{
+  "name": "aws-apigateway-proxy-local",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Giovanni Bruno",
+  "contributors": [
+    "Giovanni Bruno <giovanni.bruno@soluzionifutura.it>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:giowe/aws-apigateway-proxy-local.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0"
+  }
+}
