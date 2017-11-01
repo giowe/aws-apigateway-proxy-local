@@ -11,14 +11,11 @@ module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger =
   app.use(bodyParser.json());
 
   app.all('*', (req, res) => {
-    const out = {};
-
     const fail = err => res.send(err);
 
     const succeed = ({statusCode, headers, body}) => {
-      out.headers = headers;
-      out.statusCode = statusCode;
-      out.body = body;
+      Object.entries(headers).forEach(([field, value]) => res.header(field, value));
+      res.status(statusCode).send(body);
     };
 
     const done = (err, data) => {
@@ -40,9 +37,6 @@ module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger =
         body: req.body,
         queryStringParameters: req.query
       }, apiGatewayReqOverrides), context, callback);
-
-      Object.entries(out.headers).forEach(([field, value]) => res.header(field, value));
-      res.status(out.statusCode).send(out.body);
     } catch (err) {
       res.status(500).json({
         message: 'Internal server error',
