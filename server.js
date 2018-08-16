@@ -34,7 +34,7 @@ module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger =
         httpMethod: req.method,
         path: req.path,
         headers: req.headers,
-        body: req.body,
+        body: JSON.stringify(req.body),
         queryStringParameters: req.query
       }, apiGatewayReqOverrides), context, callback);
     } catch (err) {
