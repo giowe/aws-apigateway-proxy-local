@@ -1,6 +1,6 @@
 {
   "name": "aws-apigateway-proxy-local",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "express": "^4.16.2"
   },
   "devDependencies": {
+    "@soluzioni-futura/eslint-config-soluzioni-futura": "^1.0.1",
     "eslint": "^4.10.0"
   }
 }
