@@ -23,7 +23,6 @@ module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger =
       else succeed(data)
     }
 
-    const context = { fail, succeed, done }
     const callback = (err, data) => {
       if (err) return fail(err)
       succeed(data)
@@ -36,7 +35,7 @@ module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger =
         headers: req.headers,
         body: JSON.stringify(req.body),
         queryStringParameters: req.query
-      }, apiGatewayReqOverrides), context, callback)
+      }, apiGatewayReqOverrides), { fail, succeed, done }, callback)
     } catch (err) {
       res.status(500).json({
         message: "Internal server error",
@@ -49,4 +48,6 @@ module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger =
   })
 
   app.listen(port, () => logger.success(`listening on port ${port}`))
+
+  return app
 }
