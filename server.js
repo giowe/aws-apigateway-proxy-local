@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 const apiGatewayReq = require("./api-gateway-req")
 const bodyParser = require("body-parser")
 const express = require("express")
 const app = new express()
 
-// eslint-disable-next-line no-console
 module.exports = (lambdaFn, options = {}) => {
   const {
     port = 8888,
