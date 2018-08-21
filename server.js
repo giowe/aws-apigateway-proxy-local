@@ -4,11 +4,25 @@ const express = require("express")
 const app = new express()
 
 // eslint-disable-next-line no-console
-module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger = { log: console.log, error: console.log, success: console.log }) => {
-  const fn = lambdaFn[handler]
+module.exports = (lambdaFn, options = {}) => {
+  const {
+    port = 8888,
+    listeningMessage = `aws-apigateway-proxy-local listening on port ${port}`,
+    apiGatewayReqOverrides = {},
+    logger = {
+      log: console.log,
+      error: console.log,
+      success: console.log
+    },
+    middlewares
+  } = options
 
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
+
+  if (middlewares) {
+    app.use(middlewares)
+  }
 
   app.all("*", (req, res) => {
     const fail = err => res.send(err)
@@ -29,7 +43,7 @@ module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger =
     }
 
     try {
-      fn(apiGatewayReq({
+      lambdaFn(apiGatewayReq({
         httpMethod: req.method,
         path: req.path,
         headers: req.headers,
@@ -47,7 +61,7 @@ module.exports = (port, lambdaFn, handler, apiGatewayReqOverrides = {}, logger =
     }
   })
 
-  app.listen(port, () => logger.success(`listening on port ${port}`))
+  app.listen(port, () => logger.success(listeningMessage))
 
   return app
 }
